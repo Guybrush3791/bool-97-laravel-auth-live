@@ -7,6 +7,9 @@
             Hello,
             @auth
                 {{ Auth :: user() -> name }}
+                <a class="btn btn-primary" href="{{ route('project.create')}}">
+                    +
+                </a>
             @endauth
             @guest
                 World!
