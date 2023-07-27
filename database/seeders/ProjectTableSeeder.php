@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 
 use App\Models\Project;
 use App\Models\Type;
+use App\Models\Technology;
 
 class ProjectTableSeeder extends Seeder
 {
@@ -24,7 +25,11 @@ class ProjectTableSeeder extends Seeder
             $type = Type :: inRandomOrder() -> first();
 
             $project -> type_id = $type -> id;
+
             $project -> save();
+
+            $technologies = Technology :: inRandomOrder() -> limit(rand(0, 4)) -> get();
+            $project -> technologies() -> attach($technologies);
         }
     }
 }

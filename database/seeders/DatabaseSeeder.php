@@ -15,9 +15,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this -> call([
+            TechnologyTableSeeder :: class,
             TypeTableSeeder :: class,
             ProjectTableSeeder :: class,
             UserTableSeeder :: class
+
         ]);
     }
 }
