@@ -8,6 +8,7 @@
         <form
             method="POST"
             action="{{ route('project.store') }}"
+            enctype="multipart/form-data"
         >
 
             @csrf
@@ -51,6 +52,10 @@
                     </label>
                 </div>
             @endforeach
+            <label for="picture">Picture</label>
+            <br>
+            <input type="file" name="picture" id="picture">
+            <br>
 
             <input class="my-3" type="submit" value="CREATE">
         </form>

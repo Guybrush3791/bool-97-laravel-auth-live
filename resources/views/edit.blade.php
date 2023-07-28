@@ -3,11 +3,12 @@
 @section('content')
 
     <div class="container text-center">
-        <h1>Create new Project</h1>
+        <h1>[{{ $project -> id}}] Update project</h1>
 
         <form
             method="POST"
             action="{{ route('project.update', $project -> id) }}"
+            enctype="multipart/form-data"
         >
 
             @csrf
@@ -61,6 +62,10 @@
                     </label>
                 </div>
             @endforeach
+            <label for="picture">Picture</label>
+            <br>
+            <input type="file" name="picture" id="picture">
+            <br>
 
             <input class="my-3" type="submit" value="UPDATE">
         </form>

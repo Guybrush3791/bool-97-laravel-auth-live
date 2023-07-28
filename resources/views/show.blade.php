@@ -4,6 +4,9 @@
 
     <div class="container text-center pt-5">
         <h1>{{ $project -> name }}</h1>
+        @if ($project -> picture)
+            <img src="{{ asset('storage/' . $project -> picture) }}" width="250px">
+        @endif
         <p>
             {{ $project -> description }}
         </p>
@@ -40,7 +43,20 @@
             </span>
         </div>
         <div class="row my-3 mx-1">
-            <a class="btn btn-primary" href="{{ route('project.edit', $project -> id) }}">EDIT</a>
+            <a class="btn btn-primary col me-3" href="{{ route('project.edit', $project -> id) }}">EDIT</a>
+            @if ($project -> picture)
+                <form
+                    class="d-inline col"
+                    method="POST"
+                    action="{{ route('project.picture.delete', $project -> id) }}"
+                >
+
+                    @csrf
+                    @method("DELETE")
+
+                    <input class="btn btn-primary col ms-3" type="submit" value="CLEAR PICTURE">
+                </form>
+            @endif
         </div>
     </div>
 

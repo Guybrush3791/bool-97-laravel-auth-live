@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Project;
 use App\Models\Type;
@@ -29,6 +30,9 @@ class LoggedController extends Controller
 
         $data = $request -> all();
 
+        $img_path = Storage :: put('uploads', $data['picture']);
+        $data['picture'] = $img_path;
+
         $project = Project :: create($data);
         $project -> technologies() -> attach($data['technologies']);
 
@@ -49,18 +53,46 @@ class LoggedController extends Controller
         $data = $request -> all();
 
         $project = Project :: findOrFail($id);
-        $project -> update($data);
 
-        // if (array_key_exists('technologies', $data))
-        //     $project -> technologies() -> sync($data['technologies']);
-        // else
-        //     $project -> technologies() -> detach();
+        if (!array_key_exists('picture', $data)) {
+            $data['picture'] = $project -> picture;
+        } else {
+
+            $oldImgPath = $project -> picture;
+
+            if ($oldImgPath) {
+
+                Storage :: delete($oldImgPath);
+            }
+
+            $img_path = Storage :: put('uploads', $data['picture']);
+            $data['picture'] = $img_path;
+        }
+
+        $project -> update($data);
 
         $project -> technologies() -> sync(
             array_key_exists('technologies', $data)
             ? $data['technologies']
             : []);
 
+
+        return redirect() -> route('project.show', $project -> id);
+    }
+
+    public function clearPicture($id) {
+
+        $project = Project :: findOrFail($id);
+
+        $oldImgPath = $project -> picture;
+
+        if ($oldImgPath) {
+
+            Storage :: delete($oldImgPath);
+        }
+
+        $project -> picture = null;
+        $project -> save();
 
         return redirect() -> route('project.show', $project -> id);
     }

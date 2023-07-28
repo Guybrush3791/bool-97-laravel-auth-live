@@ -22,6 +22,7 @@ return new class extends Migration
             $table -> date('start_date');
             $table -> date('end_date');
             $table -> string('difficulty', 18);
+            $table -> string('picture') -> nullable();
 
             $table -> timestamps();
         });
